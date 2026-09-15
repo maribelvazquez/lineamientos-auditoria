@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Mapa mental interactivo de los Lineamientos del Informe de Auditoría PLD/FT (CNBV, DOF 2021) con práctica de opción múltiple.">
+<title>Mapa de Lineamientos de Auditoría PLD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#f3f7f3; --surface:#ffffff; --surface-2:#e8f1ea; --ink:#1b1b1e; --muted:#4d4d4d; --line:#cddbd0; --wire:#b6c9ba;
+  --green:#64c27b; --green-2:#87d895; --green-ink:#2b7a43; --on-green:#0e2a17;
+  --apA:#4d4d4d; --apA-ink:#ffffff;
+  --apB:#87d895; --apB-ink:#0e2a17;
+  --apC:#64c27b; --apC-ink:#0b2412;
+  --apD:#1b1b1e; --apD-ink:#ffffff;
+  --ok:#3fa55f; --ok2:#87d895; --warn:#e2a72e; --bad:#d2553f; --na:#9aa39c;
+  --shadow:0 1px 2px rgba(20,40,25,.06),0 6px 20px rgba(20,40,25,.07);
+  --f-display:"Bricolage Grotesque","Figtree",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101311; --surface:#1b1b1e; --surface-2:#222a25; --ink:#eef3ef; --muted:#b4bcb6; --line:#323a35; --wire:#46544a;
+    --green-ink:#87d895; --apA:#7a817c; --apA-ink:#ffffff; --apD:#e8eee9; --apD-ink:#1b1b1e;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101311; --surface:#1b1b1e; --surface-2:#222a25; --ink:#eef3ef; --muted:#b4bcb6; --line:#323a35; --wire:#46544a;
+  --green-ink:#87d895; --apA:#7a817c; --apA-ink:#ffffff; --apD:#e8eee9; --apD-ink:#1b1b1e;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;padding-inline:16px}
+.wrap{max-width:1320px;margin:0 auto;padding-block:20px 80px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.08}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px;border-radius:6px}
+
+/* top bar */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);padding-block:10px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.brand b{color:var(--green-ink)}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px}
+nav.tabs a{text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+nav.tabs a:hover{border-color:var(--green)}
+.recite-btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:7px 14px;border-radius:999px;border:2px solid var(--green);background:transparent;cursor:pointer}
+.recite-btn[aria-pressed="true"]{background:var(--green);color:var(--on-green)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:end;padding-block:36px 20px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--green-ink);font-weight:700}
+.hero h1{font-size:clamp(34px,5.4vw,66px);font-weight:800;letter-spacing:-.02em;margin-top:10px}
+.hero h1 em{font-style:normal;color:var(--green-ink)}
+.hero p{color:var(--muted);max-width:60ch;margin:14px 0 0}
+.rhythm{display:flex;gap:10px;align-items:stretch}
+.rh{flex:1;border-radius:14px;padding:12px 12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.rh .big{font-family:var(--f-display);font-weight:800;font-size:clamp(36px,5vw,58px);line-height:1}
+.rh .lb{font-weight:700;font-size:13px;line-height:1.2}
+.rh .q{font-size:12px;opacity:.85}
+.rh.A{background:var(--apA);color:var(--apA-ink)} .rh.B{background:var(--apB);color:var(--apB-ink)}
+.rh.C{background:var(--apC);color:var(--apC-ink)} .rh.D{background:var(--apD);color:var(--apD-ink)}
+.rh-cap{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:8px;text-align:right}
+
+/* trap */
+.trap{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:var(--surface);border:2px dashed var(--warn);border-radius:16px;padding:16px 20px;margin-block:8px 36px}
+.trap .tag{font-family:var(--f-mono);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--warn);color:#2a1d00;padding:6px 10px;border-radius:8px}
+.trap p{margin:0}
+.trap strong{font-weight:700}
+
+section.block{padding-block:28px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px 24px;margin-bottom:18px}
+.sec-head h2{font-size:clamp(26px,3.4vw,40px);font-weight:800;color:var(--green-ink);letter-spacing:-.01em}
+.sec-head p{margin:0;color:var(--muted);max-width:62ch}
+
+/* mind map */
+.map{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 230px minmax(0,1fr);grid-template-areas:"b1 core b2" "b3 core b4";gap:26px 70px;align-items:start}
+.map svg.wires{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.map svg.wires path{fill:none;stroke-width:3;stroke-linecap:round}
+.w-A{stroke:var(--apA)} .w-B{stroke:var(--apB)} .w-C{stroke:var(--apC)} .w-D{stroke:var(--apD)}
+.w-g{stroke:var(--green)}
+.core{grid-area:core;align-self:center;position:relative;z-index:1;background:var(--green);color:var(--on-green);border-radius:50%;aspect-ratio:1;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px;box-shadow:0 0 0 10px color-mix(in srgb,var(--green) 22%,transparent),var(--shadow)}
+.core .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.core .t{font-family:var(--f-display);font-weight:800;font-size:22px;line-height:1.05;margin:6px 0}
+.core .s{font-size:12px;font-weight:600;line-height:1.25}
+.b1{grid-area:b1}.b2{grid-area:b2}.b3{grid-area:b3}.b4{grid-area:b4}
+.branch{position:relative;z-index:1;min-width:0}
+.bhead{display:flex;align-items:center;gap:12px;border-radius:14px;padding:10px 14px;background:var(--c);color:var(--ci)}
+.bhead .let{font-family:var(--f-display);font-weight:800;font-size:34px;line-height:1;min-width:34px;text-align:center}
+.bhead .ti{font-weight:700;font-size:15px;line-height:1.15}
+.bhead .hk{font-size:13px;opacity:.9}
+.branch.A{--c:var(--apA);--ci:var(--apA-ink)} .branch.B{--c:var(--apB);--ci:var(--apB-ink)}
+.branch.C{--c:var(--apC);--ci:var(--apC-ink)} .branch.D{--c:var(--apD);--ci:var(--apD-ink)}
+.leaves{list-style:none;margin:10px 0 0 22px;padding:0 0 0 18px;border-left:3px solid var(--c);display:flex;flex-direction:column;gap:8px}
+.leaf{position:relative}
+.leaf::before{content:"";position:absolute;left:-18px;top:50%;width:14px;border-top:3px solid var(--c)}
+.chip{width:100%;text-align:left;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s ease,border-color .15s ease}
+.chip:hover{transform:translateX(3px);border-color:var(--c)}
+.chip .num{font-family:var(--f-mono);font-weight:700;font-size:12px;letter-spacing:.04em;background:var(--surface-2);border-radius:8px;padding:5px 8px;white-space:nowrap}
+.chip .nm{font-weight:700;font-size:15px;line-height:1.2;transition:filter .2s}
+.chip .ord{font-family:var(--f-display);font-weight:800;font-size:22px;color:var(--c);line-height:1}
+.chip.star{border:2px solid var(--apC);background:color-mix(in srgb,var(--apC) 12%,var(--surface))}
+.chip .sub{display:block;font-weight:500;font-size:12px;color:var(--muted);margin-top:2px}
+
+/* recitar */
+body.recite .nm,body.recite .hookt{filter:blur(8px);user-select:none}
+body.recite .shown .nm,body.recite .shown .hookt{filter:none}
+
+/* Octavo map fracciones */
+.frac-list{list-style:none;margin:10px 0 0 22px;padding:0 0 0 18px;border-left:3px solid var(--c);display:flex;flex-direction:column;gap:8px}
+.frac{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.frac::before{content:"";position:absolute;left:-19px;top:28px;width:15px;border-top:3px solid var(--c)}
+.frac>button{width:100%;display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center;text-align:left;background:none;border:0;padding:10px 12px;cursor:pointer}
+.frac .rom{font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1;color:var(--green-ink);text-align:center}
+.frac .nm{font-weight:700;font-size:16px;line-height:1.15}
+.frac .hookt{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-top:2px}
+.frac .cnt{font-family:var(--f-mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.frac .inc{margin:0;padding:0 14px 12px 86px;font-size:14px;color:var(--ink)}
+.frac .inc li{margin:3px 0}
+.frac .inc b{font-family:var(--f-mono);font-size:12px;color:var(--green-ink)}
+.gverb{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin-top:3px;opacity:.95}
+.branch.G1{--c:#64c27b;--ci:#0b2412} .branch.G2{--c:#87d895;--ci:#0e2a17}
+.branch.G3{--c:var(--apA);--ci:var(--apA-ink)} .branch.G4{--c:var(--apD);--ci:var(--apD-ink)}
+
+.chant{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 22px;box-shadow:var(--shadow)}
+.chant .lab{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--green-ink);font-weight:700}
+.chant p{font-family:var(--f-display);font-weight:600;font-size:clamp(18px,2.2vw,26px);line-height:1.35;margin:8px 0 0}
+.chant p span{white-space:nowrap}
+.chant p i{font-style:normal;font-family:var(--f-mono);font-size:.62em;color:var(--muted);vertical-align:.35em;margin-right:2px}
+
+/* Octavo B-D */
+.secs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);min-width:0}
+.card h3{font-size:21px;font-weight:800;color:var(--green-ink)}
+.card .lt{font-family:var(--f-mono);font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.card ul{margin:10px 0 0;padding-left:18px}
+.card li{margin:5px 0}
+.card.wide{grid-column:1/-1}
+.scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
+.lvl{border-radius:12px;padding:12px;border-top:8px solid var(--lc);background:var(--surface-2);min-width:0}
+.lvl .n{font-family:var(--f-display);font-weight:800;font-size:28px;line-height:1;color:var(--lc)}
+.lvl .t{font-weight:800;font-size:16px;margin-top:4px;line-height:1.15}
+.lvl .d{font-size:13px;color:var(--muted);margin-top:6px}
+.lvl .req{margin-top:8px;font-size:13px;font-weight:700;background:var(--surface);border-radius:8px;padding:6px 8px}
+.memo{margin-top:12px;font-size:14px;color:var(--muted)}
+.memo b{color:var(--ink)}
+
+/* cifras */
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.numt{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.numt .v{font-family:var(--f-display);font-weight:800;font-size:40px;line-height:1;color:var(--green-ink);font-variant-numeric:tabular-nums}
+.numt .v small{font-size:16px;font-weight:600;margin-left:4px}
+.numt .d{font-weight:600;font-size:14px;margin-top:6px;line-height:1.25}
+.numt .r{font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-top:6px}
+
+/* quiz */
+.quiz{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 26px;box-shadow:var(--shadow);max-width:1040px}
+.qbar{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.qprog{height:6px;background:var(--surface-2);border-radius:9px;overflow:hidden;margin:10px 0 18px}
+.qprog i{display:block;height:100%;background:var(--green);width:0;transition:width .3s}
+.qtext{font-family:var(--f-display);font-weight:700;font-size:clamp(20px,2.6vw,30px);line-height:1.2}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.opt{text-align:left;padding:14px 16px;border-radius:12px;border:2px solid var(--line);background:var(--bg);font-weight:700;font-size:16px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--green)}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--surface))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--surface))}
+.opt[disabled]{cursor:default}
+.fb{margin-top:14px;min-height:24px;font-weight:600}
+.fb .ok{color:var(--ok)} .fb .no{color:var(--bad)}
+.qactions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn{border:0;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer;background:var(--green);color:var(--on-green)}
+.btn.ghost{background:transparent;border:2px solid var(--line);color:var(--ink)}
+
+.modes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.qmode{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;cursor:pointer}
+.qmode[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--on-green)}
+.miss{margin-top:16px;background:var(--surface-2);border-radius:12px;padding:12px 16px}
+.miss .lt{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);font-weight:700}
+.miss ul{margin:6px 0 0;padding-left:18px} .miss li{margin:8px 0}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,20,14,.45);z-index:50}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--surface);z-index:60;box-shadow:-10px 0 40px rgba(0,0,0,.25);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.dhead{padding:20px 22px 16px;background:var(--c);color:var(--ci);display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.dhead .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.9}
+.dhead h3{font-size:30px;font-weight:800;margin-top:4px}
+.dhead .x{background:rgba(255,255,255,.2);border:0;border-radius:10px;width:40px;height:40px;font-size:22px;cursor:pointer;color:inherit;flex:none}
+.dbody{padding:18px 22px 30px;overflow:auto}
+.dbody ul{padding-left:18px;margin:0}
+.dbody li{margin:8px 0}
+.dbody .hook{background:var(--surface-2);border-radius:12px;padding:10px 14px;font-weight:700;margin-bottom:14px}
+.dbody .go{margin-top:16px}
+
+footer{margin-top:40px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+
+@media (max-width:980px){
+  .secs{grid-template-columns:1fr}
+  .scale{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .map{grid-template-columns:1fr;grid-template-areas:"core" "b1" "b2" "b3" "b4";gap:22px}
+  .map svg.wires{display:none}
+  .core{width:210px;justify-self:center}
+  .opts{grid-template-columns:1fr}
+  .trap{grid-template-columns:1fr}
+  .frac .inc{padding-left:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><b>360EDUCA</b> · Módulo 3 · Certificación CNBV PLD/FT</div>
+    <nav class="tabs" aria-label="Secciones">
+      <a href="#mapa">Los 12</a><a href="#octavo">Octavo A: las 14</a><a href="#secciones">Octavo B·C·D</a><a href="#cifras">Cifras</a><a href="#examen" style="background:var(--green);color:var(--on-green);border-color:var(--green)">Practicar ▸</a>
+    </nav>
+    <button class="recite-btn" id="recite" aria-pressed="false">Modo recitar</button>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">DOF 18-oct-2021 · CNBV</div>
+      <h1>Lineamientos del <em>Informe de Auditoría</em> PLD/FT</h1>
+      <p>12 lineamientos en 4 apartados. El corazón es el <b>OCTAVO</b>: ahí viven las 14 fracciones de la sección A que más preguntan en el examen. Toca cualquier lineamiento para ver su contenido; activa <b>Modo recitar</b> para ocultar los nombres y practicar de memoria.</p>
+    </div>
+    <div>
+      <div class="rhythm" aria-label="Ritmo 3-2-3-4">
+        <div class="rh A"><span class="big">3</span><span class="lb">Apartado A</span><span class="q">¿Qué?</span></div>
+        <div class="rh B"><span class="big">2</span><span class="lb">Apartado B</span><span class="q">¿Quién?</span></div>
+        <div class="rh C"><span class="big">3</span><span class="lb">Apartado C</span><span class="q">¿Cómo?</span></div>
+        <div class="rh D"><span class="big">4</span><span class="lb">Apartado D</span><span class="q">¿Y luego?</span></div>
+      </div>
+      <div class="rh-cap">ritmo 3 · 2 · 3 · 4 = 12 lineamientos</div>
+    </div>
+  </section>
+
+  <div class="trap">
+    <span class="tag">Trampa de examen</span>
+    <p><strong>«Apartado A»</strong> son los Lineamientos Preliminares (PRIMERO a TERCERO). <strong>«OCTAVO, sección A»</strong> son los Resultados de la revisión con sus 14 fracciones. Misma letra, cosas distintas: si la pregunta dice fracción romana, están hablando del OCTAVO.</p>
+  </div>
+
+  <section class="block" id="mapa">
+    <div class="sec-head">
+      <h2>Los 12 lineamientos</h2>
+      <p>Cada apartado responde una pregunta. Apréndete la pregunta y los lineamientos salen solos.</p>
+    </div>
+    <div class="map" id="map1">
+      <svg class="wires" aria-hidden="true"></svg>
+      <div class="core"><span class="k">Lineamientos</span><span class="t">Informe de Auditoría</span><span class="s">12 lineamientos<br>4 apartados</span></div>
+      <div class="branch A b1" data-w="A"></div>
+      <div class="branch B b2" data-w="B"></div>
+      <div class="branch C b3" data-w="C"></div>
+      <div class="branch D b4" data-w="D"></div>
+    </div>
+    <div class="chant">
+      <div class="lab">Para recitar en voz alta</div>
+      <p><span>¿Qué? Objeto, Definiciones, Interpretación.</span> <span>¿Quién? Auditor y Persona Moral.</span> <span>¿Cómo? Planeo, Programo y Secciono.</span> <span>¿Y luego? Redacto, Pruebo, Remito y Conservo.</span></p>
+    </div>
+  </section>
+
+  <section class="block" id="octavo">
+    <div class="sec-head">
+      <h2>OCTAVO · A — las 14 fracciones</h2>
+      <p>Resultados de la revisión. Sigue la vida del cliente y luego la de la institución: 4 · 4 · 3 · 3. Toca una fracción para ver sus incisos.</p>
+    </div>
+    <div class="map" id="map2">
+      <svg class="wires" aria-hidden="true"></svg>
+      <div class="core"><span class="k">Octavo · Sección A</span><span class="t">Resultados de la revisión</span><span class="s">14 fracciones<br>I a XIV</span></div>
+      <div class="branch G1 b1" data-w="g"></div>
+      <div class="branch G2 b2" data-w="g"></div>
+      <div class="branch G3 b3" data-w="g"></div>
+      <div class="branch G4 b4" data-w="g"></div>
+    </div>
+    <div class="chant">
+      <div class="lab">La cadena de 14 verbos</div>
+      <p id="chant14"></p>
+    </div>
+  </section>
+
+  <section class="block" id="secciones">
+    <div class="sec-head">
+      <h2>OCTAVO · B, C y D</h2>
+      <p>Después de revisar (A), el auditor califica (B), advierte lo grave (C) y deja la tarea (D).</p>
+    </div>
+    <div class="secs">
+      <div class="card wide">
+        <div class="lt">Sección B</div>
+        <h3>Cumplimiento regulatorio: 5 sentidos de evaluación</h3>
+        <div class="scale">
+          <div class="lvl" style="--lc:var(--ok)"><div class="n">1</div><div class="t">Cumple</div><div class="d">Eficacia demostrada con el cumplimiento de las obligaciones.</div><div class="req">No se requieren ni recomiendan mejoras</div></div>
+          <div class="lvl" style="--lc:var(--ok2)"><div class="n">2</div><div class="t">Cumple Mayoritariamente</div><div class="d">La eficacia no puede demostrarse completamente.</div><div class="req">≥ 1 recomendación de mejora (y, en su caso, hallazgo)</div></div>
+          <div class="lvl" style="--lc:var(--warn)"><div class="n">3</div><div class="t">Cumple Parcialmente</div><div class="d">No hay evidencia objetiva que demuestre la eficacia.</div><div class="req">≥ 1 hallazgo (y, en su caso, recomendaciones)</div></div>
+          <div class="lvl" style="--lc:var(--bad)"><div class="n">4</div><div class="t">No cumple</div><div class="d">No cubre los elementos necesarios o actualiza una sanción.</div><div class="req">≥ 1 hallazgo</div></div>
+          <div class="lvl" style="--lc:var(--na)"><div class="n">5</div><div class="t">No aplica</div><div class="d">No surte vigencia por características estructurales, legales o institucionales.</div><div class="req">Verificar que no oculte incumplimiento; consistente con el análisis de riesgos</div></div>
+        </div>
+        <p class="memo">Gancho: <b>Mayoritariamente → Mejora</b> (M con M, recomendación). <b>Parcialmente → falta Prueba</b> (P con P, hallazgo por falta de evidencia objetiva).</p>
+      </div>
+      <div class="card">
+        <div class="lt">Sección C</div>
+        <h3>Asuntos clave de la auditoría</h3>
+        <p style="margin:8px 0 0;color:var(--muted)">«En caso de requerirse». Aspectos, condiciones o información <b>preocupante</b>:</p>
+        <ul>
+          <li>Medidas no acordes a los productos, servicios u Operaciones.</li>
+          <li>Controles sin eficacia operativa para mitigar Riesgos.</li>
+          <li>Hallazgos que se sitúan en infracción grave.</li>
+          <li>Irregularidades que pudieran favorecer delitos de los arts. 139 Quáter o 400 Bis CPF.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="lt">Sección D</div>
+        <h3>Hallazgos, acciones correctivas y recomendaciones</h3>
+        <ul>
+          <li>Cada hallazgo con su acción correctiva y las recomendaciones de mejora.</li>
+          <li>Con <b>plazos</b>, <b>responsables</b> de implementación y de supervisión.</li>
+          <li>Seguimiento a hallazgos del <b>informe del año inmediato anterior</b>.</li>
+          <li>En su caso, seguimiento a observaciones de la <b>CNBV</b> del año anterior.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="lt">Frase para no olvidar el orden</div>
+        <h3>Reviso · Califico · Advierto · Corrijo</h3>
+        <ul>
+          <li><b>A</b> Resultados → reviso las 14 fracciones</li>
+          <li><b>B</b> Cumplimiento → califico en 5 sentidos</li>
+          <li><b>C</b> Asuntos clave → advierto lo preocupante</li>
+          <li><b>D</b> Hallazgos → corrijo con plazos y responsables</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="cifras">
+    <div class="sec-head">
+      <h2>Cifras que preguntan</h2>
+      <p>Números sueltos que suelen convertirse en reactivos. Cada uno con su lineamiento.</p>
+    </div>
+    <div class="nums" id="nums"></div>
+  </section>
+
+  <section class="block" id="examen">
+    <div class="sec-head">
+      <h2>Modo examen</h2>
+      <p>10 reactivos de opción múltiple (4 opciones) que cambian en cada ronda. Elige qué practicar; al final aparecen las que fallaron con su explicación.</p>
+    </div>
+    <div class="modes" role="group" aria-label="Tipo de práctica">
+      <button class="qmode" data-m="all" aria-pressed="true">Todo mezclado</button>
+      <button class="qmode" data-m="lin" aria-pressed="false">Los 12 lineamientos</button>
+      <button class="qmode" data-m="fr" aria-pressed="false">Las 14 fracciones</button>
+      <button class="qmode" data-m="num" aria-pressed="false">Cifras y trampas</button>
+    </div>
+    <div class="quiz" id="quiz" aria-live="polite"></div>
+  </section>
+
+  <footer>Fuente: Lineamientos para la elaboración del informe de auditoría para evaluar el cumplimiento de las disposiciones de carácter general en materia de PLD/FT, CNBV, DOF 18 de octubre de 2021 (abrogan los del 19 de enero de 2017). Material didáctico de 360EDUCA; los textos están resumidos, consulta el DOF para la redacción íntegra.</footer>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="dTitle">
+  <div class="dhead" id="dHead"><div><div class="k" id="dKick"></div><h3 id="dTitle"></h3></div><button class="x" id="dClose" aria-label="Cerrar">×</button></div>
+  <div class="dbody" id="dBody"></div>
+</aside>
+
+<script>
+const AP = {
+  A:{t:"Lineamientos preliminares",q:"¿Qué? — el marco"},
+  B:{t:"Del Auditor",q:"¿Quién? — quién puede auditar"},
+  C:{t:"De la elaboración del Informe",q:"¿Cómo? — cómo se hace"},
+  D:{t:"Del Informe de Auditoría",q:"¿Y luego? — cómo se entrega"}
+};
+const LIN = [
+ {o:1,n:"PRIMERO",t:"Objeto",ap:"A",hook:"¿Para qué existen?",pts:["Requisitos mínimos para contratar Personas Morales y Auditores.","Procedimientos y requisitos para <b>elaborar</b> el Informe de Auditoría.","Procedimientos y requisitos para <b>remitirlo</b> a la CNBV.","El Informe sirve para hacer más eficientes procesos y establecer planes de acción.","Los supuestos son enunciativos: no limitan al Auditor."]},
+ {o:2,n:"SEGUNDO",t:"Definiciones",ap:"A",hook:"¿Qué significa cada término? — 9 definiciones",pts:["I. <b>Auditor</b>: persona física que elabora y firma (puede formar parte de una Persona Moral).","II. <b>Certificado</b>: expedido por la CNBV (art. 4 fr. X y X Bis LCNBV).","III. <b>Disposiciones</b>: las DCG PLD/FT de cada sector.","IV. <b>Financiamiento al Terrorismo</b>: art. 139 Quáter CPF.","V. <b>Informe de Auditoría</b>.","VI. <b>Operaciones con Recursos de Procedencia Ilícita</b>: art. 400 Bis CPF.","VII. <b>Persona Moral</b> contratada.","VIII. <b>SITI PLD/FT</b>.","IX. <b>Sujetos Supervisados</b> (incluye ITF: IFPE e IFC, y modelos novedosos)."]},
+ {o:3,n:"TERCERO",t:"Interpretación y consultas",ap:"A",hook:"¿Quién interpreta?",pts:["Corresponde a la <b>Vicepresidencia de Supervisión de Procesos Preventivos</b> de la CNBV."]},
+ {o:4,n:"CUARTO",t:"Requisitos del Auditor",ap:"B",hook:"La persona física — 9 requisitos + 4 documentos",pts:["I. Licenciatura + <b>3 años</b> de experiencia PLD/FT; sin licenciatura, <b>5 años</b>.","II. <b>Certificado vigente</b> al elaborar y firmar el informe.","III. No sentenciado por delitos patrimoniales.","IV. No inhabilitado ni en concurso mercantil.","V. No ser (ni tener ofrecimiento para ser) consejero o directivo — salvo auditor interno.","VI. No accionista, órgano de gobierno, OC, funcionario, apoderado ni empleado — salvo auditor interno.","VII. Sin litigio pendiente con el Sujeto Supervisado.","VIII. Sin suspensión, cancelación o revocación de registro o certificación.","IX. No estar en listas de personas vinculadas.","Documentos que recaba el Sujeto Supervisado: a) título/cédula, b) acreditación de experiencia, c) copia del Certificado, d) <b>carta bajo protesta</b> (fracciones III a VIII)."]},
+ {o:5,n:"QUINTO",t:"Requisitos de la Persona Moral",ap:"B",hook:"El despacho — independencia, recursos, sin control",pts:["I. <b>Independencia</b> desde el contrato hasta la emisión del informe.","No hay independencia si el Auditor o un socio fue, en el <b>año inmediato anterior</b>, OC o auditor interno, o DG, representante legal o de los <b>3 niveles</b> inferiores (incluye grupo financiero o empresarial).","Tampoco si los honorarios dependen del resultado del informe.","II. Recursos técnicos, humanos, financieros y administrativos suficientes.","III. No ejercer el Control del Sujeto Supervisado.","Papeles de trabajo a disposición por <b>mínimo 5 años</b> desde la presentación del informe."]},
+ {o:6,n:"SEXTO",t:"Planeación de la auditoría",ap:"C",hook:"Planeo — conocer al sujeto antes de auditar",pts:["Metodología con criterios mínimos:","I. <b>Cuestionario inicial</b> de conocimiento del Sujeto Supervisado.","II. <b>Análisis de Riesgos</b> con 5 variables: a) productos y servicios, b) clientes y usuarios, c) países y áreas geográficas, d) transacciones y canales, e) infraestructura tecnológica.","III. Revisión de la información y documentación, asentada como evidencia objetiva.","Sirve también para verificar que la metodología EBR del sujeto sea coherente con sus características."]},
+ {o:7,n:"SÉPTIMO",t:"Programa de trabajo",ap:"C",hook:"Programo — calendario y pruebas",pts:["Calendario de actividades y temas a evaluar.","Pruebas a los <b>sistemas automatizados</b>.","Revisiones <b>aleatorias</b> a expedientes de identificación.","Recursos materiales, tecnológicos y humanos del sujeto.","Forma de dar seguimiento a las acciones correctivas.","Puede realizarse dentro o fuera de las instalaciones."]},
+ {o:8,n:"OCTAVO",t:"Secciones del Informe",ap:"C",hook:"Secciono — A, B, C y D",star:true,pts:["<b>A.</b> Resultados de la revisión — <b>14 fracciones</b>.","<b>B.</b> Cumplimiento regulatorio — <b>5 sentidos</b>.","<b>C.</b> Asuntos clave de la auditoría.","<b>D.</b> Hallazgos, acciones correctivas y recomendaciones de mejora."],go:"#octavo"},
+ {o:9,n:"NOVENO",t:"Redacción y estructura",ap:"D",hook:"Redacto — forma del documento",pts:["En <b>español</b>.","Tipografía de al menos <b>10 puntos</b>.","Con <b>índice</b>; dividido en secciones, capítulos, apartados o incisos.","Divisiones resaltadas en <b>negrillas</b>.","En su caso, con la documentación base anexa."]},
+ {o:10,n:"DÉCIMO",t:"Pruebas y documentación sustento",ap:"D",hook:"Pruebo — todo dicho, probado",pts:["Toda manifestación y dato sustentado en pruebas que acrediten su veracidad.","Relacionar específicamente las pruebas y la documentación analizada.","Procurar citar el <b>texto íntegro</b> y los datos de identificación del documento."]},
+ {o:11,n:"DÉCIMO PRIMERO",t:"Conocimiento y remisión",ap:"D",hook:"Remito — quién lo conoce y cómo se envía",pts:["La <b>dirección general</b> y el <b>Comité</b> (o el OC) deben conocer el informe.","Se envía por <b>SITI PLD/FT</b> con escrito firmado por representante legal, administrador único u OC.","El escrito indica: fecha en que lo conocieron, periodo de revisión, nombre completo del Auditor sin abreviaturas, número y fecha del Certificado y, en su caso, la Persona Moral.","Se adjunta la carta bajo protesta del CUARTO, inciso d).","Formato <b>PDF</b> con texto seleccionable y búsqueda."]},
+ {o:12,n:"DÉCIMO SEGUNDO",t:"Conservación",ap:"D",hook:"Conservo — 5 años",pts:["Toda la información y documentación generada: <b>no menos de 5 años</b> desde que se remite el informe.","A disposición de la CNBV cuando la requiera."]}
+];
+const GR = [
+ {k:"G1",t:"El cliente",v:"Identifico · Mido · Conozco · Reporto",f:[0,1,2,3]},
+ {k:"G2",t:"La casa por dentro",v:"Organizo · Capacito · Automatizo · Contrato",f:[4,5,6,7]},
+ {k:"G3",t:"La memoria",v:"Guardo · Filtro · Comparto",f:[8,9,10]},
+ {k:"G4",t:"Lo que no todos tienen",v:"Innovo · Informo · Delego",f:[11,12,13]}
+];
+const FR = [
+ {r:"I",t:"Identificación del Cliente o Usuario",verb:"Identifico",hook:"¿Quién es?",inc:["a) Manual de Cumplimiento adecuado a productos y servicios","b) Identifica según perfil — muestreo representativo, expedientes de alto riesgo, criterios, número y % de la muestra, faltantes","c) Cuentas Concentradoras","d) Mecanismos de seguimiento y agrupación de Operaciones; escalamiento","e) Verificación de expedientes por Grado de Riesgo y reclasificación","f) Visitas al domicilio"]},
+ {r:"II",t:"Metodología con enfoque basado en riesgos",verb:"Mido",hook:"¿Cuánto riesgo?",inc:["a) Procesos de identificación, medición y mitigación documentados","b) Diseñó e implementó la metodología (productos, clientes, países, transacciones, canales)","c) Consideró el total de elementos","d) Método de medición con pesos consistentes","e) Identificó Mitigantes","f) Ajustó políticas para nivel de tolerancia aceptable","g) Implementación sin inconsistencias, con al menos 12 meses de información","h) Valoración de eficiencia y eficacia"]},
+ {r:"III",t:"Conocimiento del Cliente o Usuario",verb:"Conozco",hook:"¿Cómo se comporta?",inc:["a) Manual de Cumplimiento","b) Perfil y comportamiento transaccional","c) Modelo de Grado de Riesgo","d) Sistema de alertas","e) Supervisión de clientes de alto riesgo","f) Personas Políticamente Expuestas","g) Operaciones con PEP de alto riesgo aprobadas","h) Operaciones de alto riesgo aprobadas","i) Propietario Real y beneficiario","j) Operaciones con Sujetos Supervisados como clientes","k) Lista de Personas Bloqueadas (políticas y procedimientos)"]},
+ {r:"IV",t:"Reportes de Operaciones",verb:"Reporto",hook:"¿Lo reporté?",inc:["a) Relevantes (incluye Cuentas Concentradoras)","b) Inusuales — dictamen del Comité u OC y análisis de las no dictaminadas","c) Reportes de 24 horas","d) Internas Preocupantes","e) Demás reportes: transferencias internacionales, efectivo en USD, cheques de caja, Activos Virtuales, efectivo en moneda extranjera, montos totales de divisas","Señalar omitidas, extemporáneas y contrarias a las Disposiciones"]},
+ {r:"V",t:"Estructuras internas",verb:"Organizo",hook:"¿Quién decide?",inc:["a) Integró el Comité","b) Comunicó su integración inicial (o la excepción)","c) Comunicó cambios del Comité","d) Designación o revocación del OC y del OC interino","e) Comunicó la designación o revocación","Reporte de funciones del Comité y del OC"]},
+ {r:"VI",t:"Capacitación y difusión",verb:"Capacito",hook:"¿Saben?",inc:["a) Programa anual coherente con la metodología EBR","b) Impartió cursos","c) Difundió Disposiciones y tendencias","d) Expidió constancias","e) Medidas para quien no aprueba la evaluación"]},
+ {r:"VII",t:"Infraestructura Tecnológica",verb:"Automatizo",hook:"¿El sistema lo hace?",inc:["Sistemas automatizados con la totalidad de funciones de las Disposiciones y cómo se cercioró de que funcionan (sin incisos)"]},
+ {r:"VIII",t:"Empleados de atención al público o administración de recursos",verb:"Contrato",hook:"¿A quién contraté?",inc:["a) Procedimientos de selección","b) Expedientes de cada empleado","c) Constancias de capacitación previa o simultánea al ingreso"]},
+ {r:"IX",t:"Conservación de la información",verb:"Guardo",hook:"¿Lo guardé?",inc:["a) Mecanismos para conservar ≥ 10 años reportes y expedientes","b) Los conserva ≥ 10 años","c) Mecanismos para conservar ≥ 5 años los Informes de Auditoría","d) Los conserva ≥ 5 años"]},
+ {r:"X",t:"Listas",verb:"Filtro",hook:"¿Está en listas?",inc:["a) Listas oficialmente reconocidas","b) Personas Políticamente Expuestas","c) Regímenes fiscales preferentes","d) Países sin medidas o con medidas deficientes","e) Lista de Personas Bloqueadas","f) Medidas al identificar a un cliente en listas"]},
+ {r:"XI",t:"Intercambio de información",verb:"Comparto",hook:"¿Lo compartí?",inc:["a) Intercambió información conforme a las Disposiciones y lo acreditó"]},
+ {r:"XII",t:"Modelos Novedosos",verb:"Innovo",hook:"¿Es novedoso?",inc:["a) Autorización de la CNBV","b) Evaluó el Riesgo antes del lanzamiento","c) Evaluación con enfoque basado en Riesgo","d) Presentó la evaluación con la solicitud","e) Se ajustó a los términos de la autorización","f) Opera a través del Modelo Novedoso autorizado"]},
+ {r:"XIII",t:"Otra información",verb:"Informo",hook:"¿Qué más?",inc:["a) Personas que ejercen el Control y sus cambios","b) Transmisión de acciones por más del 2% del capital pagado","c) Transmisores: aviso de agentes relacionados y coadyuvantes","d) Información requerida por la CNBV","e) Subsanó observaciones de la CNBV","f) Oficinas, sucursales, agencias y filiales"]},
+ {r:"XIV",t:"Comisionistas",verb:"Delego",hook:"¿Quién opera por mí?",inc:["a) Resultados de obligaciones con comisionistas","b) Si los comisionistas integran y conservan expedientes","c) Revisión a comisionistas o justificación de no hacerla"]}
+];
+const NUMS = [
+ ["3","años","Experiencia con licenciatura (5 sin licenciatura)","CUARTO, fr. I"],
+ ["1","año","Ventana previa para medir independencia","QUINTO, fr. I a)"],
+ ["3","niveles","Inferiores al DG que rompen independencia","QUINTO, fr. I a) ii)"],
+ ["5","años","Papeles de trabajo de la Persona Moral","QUINTO"],
+ ["5","variables","Del análisis de riesgos del auditor","SEXTO, fr. II"],
+ ["12","meses","Mínimo de información en la metodología EBR","OCTAVO A, fr. II g)"],
+ ["10","años","Conservar reportes y expedientes","OCTAVO A, fr. IX a) b)"],
+ ["5","años","Conservar Informes de Auditoría","OCTAVO A, fr. IX c) d)"],
+ ["2","%","Transmisión de acciones que se comunica","OCTAVO A, fr. XIII b)"],
+ ["5","sentidos","De evaluación del cumplimiento","OCTAVO B"],
+ ["10","pts","Tipografía mínima del informe","NOVENO"],
+ ["5","años","Conservar todo lo generado, desde la remisión","DÉCIMO SEGUNDO"]
+];
+const $ = s=>document.querySelector(s);
+const esc = s=>s;
+
+/* build map 1 */
+["A","B","C","D"].forEach((k,i)=>{
+  const el = document.querySelector("#map1 .branch."+k);
+  const items = LIN.filter(l=>l.ap===k);
+  el.innerHTML = `<div class="bhead"><span class="let">${k}</span><div><div class="ti">Apartado ${k} · ${AP[k].t}</div><div class="hk">${AP[k].q}</div></div></div>
+  <ul class="leaves">${items.map(l=>`<li class="leaf"><button class="chip${l.star?' star':''}" data-o="${l.o}"><span class="num">${l.n}</span><span class="nm">${l.t}${l.star?'<span class="sub">A · B · C · D — aquí están las 14</span>':''}</span><span class="ord">${l.o}</span></button></li>`).join("")}</ul>`;
+});
+/* build map 2 */
+GR.forEach(g=>{
+  const el = document.querySelector("#map2 .branch."+g.k);
+  el.innerHTML = `<div class="bhead"><span class="let">${FR[g.f[0]].r}–${FR[g.f[g.f.length-1]].r}</span><div><div class="ti">${g.t}</div><div class="gverb">${g.v}</div></div></div>
+  <ul class="frac-list">${g.f.map(i=>{const f=FR[i];return `<li class="frac"><button aria-expanded="false" data-f="${i}"><span class="rom">${f.r}</span><span><span class="nm">${f.t}</span><span class="hookt">${f.verb} · ${f.hook}</span></span><span class="cnt">${f.inc.length>1||f.r!=="VII"?f.inc.filter(x=>/^[a-k]\)/.test(x)).length+" inc.":"sin inc."}</span></button><ul class="inc" hidden>${f.inc.map(x=>`<li>${x.replace(/^([a-k]\))/,"<b>$1</b>")}</li>`).join("")}</ul></li>`}).join("")}</ul>`;
+  el.querySelector(".bhead .let").style.fontSize="24px";
+});
+$("#chant14").innerHTML = FR.map(f=>`<span><i>${f.r}</i>${f.verb}</span>`).join(" · ");
+
+/* nums */
+$("#nums").innerHTML = NUMS.map(n=>`<div class="numt"><div class="v">${n[0]}<small>${n[1]}</small></div><div class="d">${n[2]}</div><div class="r">${n[3]}</div></div>`).join("");
+
+/* wires */
+function wires(map){
+  const svg = map.querySelector("svg.wires");
+  if(getComputedStyle(svg).display==="none") return;
+  const R = map.getBoundingClientRect(), C = map.querySelector(".core").getBoundingClientRect();
+  svg.setAttribute("width",R.width); svg.setAttribute("height",R.height); svg.setAttribute("viewBox",`0 0 ${R.width} ${R.height}`);
+  let out="";
+  map.querySelectorAll(".branch").forEach(b=>{
+    const H = b.querySelector(".bhead").getBoundingClientRect();
+    const right = H.left > C.left;
+    const cy = C.top + C.height/2 - R.top;
+    const x1 = (right? C.right : C.left) - R.left;
+    const x2 = (right? H.left : H.right) - R.left;
+    const y2 = H.top + H.height/2 - R.top;
+    const mx = (x1+x2)/2;
+    out += `<path class="w-${b.dataset.w}" d="M${x1},${cy} C${mx},${cy} ${mx},${y2} ${x2},${y2}"/>`;
+  });
+  svg.innerHTML = out;
+}
+const redraw = ()=>document.querySelectorAll(".map").forEach(wires);
+window.addEventListener("resize",redraw);
+if(window.ResizeObserver){const ro=new ResizeObserver(redraw);document.querySelectorAll(".map").forEach(m=>ro.observe(m));}
+document.fonts && document.fonts.ready.then(redraw);
+redraw();
+
+/* recite mode */
+const recite = $("#recite");
+recite.addEventListener("click",()=>{
+  const on = document.body.classList.toggle("recite");
+  recite.setAttribute("aria-pressed",on);
+  recite.textContent = on ? "Mostrar nombres" : "Modo recitar";
+  document.querySelectorAll(".shown").forEach(e=>e.classList.remove("shown"));
+});
+
+/* drawer */
+let lastFocus=null;
+function openLin(o){
+  const l = LIN.find(x=>x.o===o);
+  const d=$("#drawer"), h=$("#dHead");
+  const map={A:["--apA","--apA-ink"],B:["--apB","--apB-ink"],C:["--apC","--apC-ink"],D:["--apD","--apD-ink"]}[l.ap];
+  h.style.setProperty("--c",`var(${map[0]})`); h.style.setProperty("--ci",`var(${map[1]})`);
+  $("#dKick").textContent = `Apartado ${l.ap} · Lineamiento ${l.o} de 12`;
+  $("#dTitle").textContent = `${l.n} · ${l.t}`;
+  $("#dBody").innerHTML = `<div class="hook">${l.hook}</div><ul>${l.pts.map(p=>`<li>${p}</li>`).join("")}</ul>${l.go?`<a class="btn go" href="${l.go}" id="dGo" style="display:inline-block;text-decoration:none">Ver las 14 fracciones de la sección A</a>`:""}`;
+  lastFocus=document.activeElement;
+  $("#scrim").hidden=false; d.hidden=false; $("#dClose").focus();
+  const go=$("#dGo"); if(go) go.addEventListener("click",closeD);
+}
+function closeD(){ $("#scrim").hidden=true; $("#drawer").hidden=true; if(lastFocus) lastFocus.focus(); }
+$("#dClose").addEventListener("click",closeD);
+$("#scrim").addEventListener("click",closeD);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("#drawer").hidden) closeD(); });
+
+document.addEventListener("click",e=>{
+  const chip = e.target.closest(".chip");
+  if(chip){
+    if(document.body.classList.contains("recite") && !chip.classList.contains("shown")){ chip.classList.add("shown"); return; }
+    openLin(+chip.dataset.o); return;
+  }
+  const fb = e.target.closest(".frac>button");
+  if(fb){
+    const li = fb.parentElement;
+    if(document.body.classList.contains("recite") && !li.classList.contains("shown")){ li.classList.add("shown"); return; }
+    const inc = li.querySelector(".inc"); const open = inc.hidden;
+    inc.hidden = !open; fb.setAttribute("aria-expanded",open);
+  }
+});
+
+/* quiz */
+const shuffle = a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pickOpts = (right,pool)=>shuffle([right,...shuffle(pool.filter(x=>x!==right)).slice(0,3)]);
+const linName = l=>l.n;
+const SCEN = [
+ ["El auditor debe tener licenciatura y al menos 3 años de experiencia en PLD/FT.","CUARTO"],
+ ["Los honorarios del despacho no pueden depender del resultado del informe.","QUINTO"],
+ ["El auditor elabora un cuestionario inicial y un análisis de riesgos con 5 variables.","SEXTO"],
+ ["Calendario de actividades, pruebas a sistemas y revisiones aleatorias de expedientes.","SÉPTIMO"],
+ ["El informe debe tener índice, tipografía mínima de 10 puntos y divisiones en negrillas.","NOVENO"],
+ ["Cada manifestación del informe debe relacionarse con sus pruebas, citando el texto íntegro.","DÉCIMO"],
+ ["El informe se envía por SITI PLD/FT en PDF con escrito firmado y número de Certificado.","DÉCIMO PRIMERO"],
+ ["Conservar toda la documentación al menos 5 años desde la remisión del informe.","DÉCIMO SEGUNDO"],
+ ["La Vicepresidencia de Supervisión de Procesos Preventivos resuelve consultas.","TERCERO"],
+ ["Se define qué es el SITI PLD/FT y quiénes son Sujetos Supervisados.","SEGUNDO"],
+ ["El informe se divide en Resultados, Cumplimiento regulatorio, Asuntos clave y Hallazgos.","OCTAVO"]
+];
+const SCENF = [
+ ["Revisar una muestra representativa de expedientes e indicar qué % del total representa.","I"],
+ ["Verificar que la metodología EBR usó al menos 12 meses de información.","II"],
+ ["Revisar el procedimiento para identificar al Propietario Real de los recursos.","III"],
+ ["Verificar que se presentaron en tiempo y forma los Reportes de 24 horas.","IV"],
+ ["Verificar la designación y comunicación del Oficial de Cumplimiento interino.","V"],
+ ["Revisar las medidas para empleados que reprobaron la evaluación de conocimientos.","VI"],
+ ["Verificar que el sistema automatizado desarrolla la totalidad de las funciones.","VII"],
+ ["Revisar los expedientes de selección del personal de atención al público.","VIII"],
+ ["Verificar que se conservan 10 años los reportes y expedientes.","IX"],
+ ["Revisar si identifica países con regímenes fiscales preferentes.","X"],
+ ["Verificar que obtuvo autorización de la CNBV para su Modelo Novedoso.","XII"],
+ ["Verificar si comunicó la transmisión de acciones por más del 2% del capital.","XIII"],
+ ["Revisar si los expedientes los integran y conservan terceros que operan a su nombre.","XIV"]
+];
+const SPECIAL = [
+ {q:"En la sección B del OCTAVO, «Cumple Mayoritariamente» obliga a incluir al menos…",a:"Una recomendación de mejora",o:["Una recomendación de mejora","Un hallazgo","Ninguna mejora","Una acción correctiva con sanción"],x:"Mayoritariamente → Mejora."},
+ {q:"En la sección B del OCTAVO, «Cumple Parcialmente» se da cuando…",a:"No hay evidencia objetiva que demuestre la eficacia",o:["No hay evidencia objetiva que demuestre la eficacia","Se actualiza una sanción","La obligación no surte vigencia","La eficacia está demostrada"],x:"Parcialmente → falta Prueba → al menos un hallazgo."},
+ {q:"¿Cuántos sentidos de evaluación tiene la sección B del OCTAVO?",a:"5",o:["3","4","5","14"],x:"Cumple, Mayoritariamente, Parcialmente, No cumple y No aplica."},
+ {q:"¿Cuántos años se conservan los Informes de Auditoría según la fracción IX del OCTAVO A?",a:"5 años",o:["5 años","10 años","3 años","12 meses"],x:"Reportes y expedientes: 10 años. Informes de Auditoría: 5 años."},
+ {q:"¿Cuántos años se conservan los reportes de Operaciones y los expedientes de identificación (OCTAVO A, fr. IX)?",a:"10 años",o:["5 años","10 años","12 años","3 años"],x:"Fracción IX a) y b): no menos de 10 años."},
+ {q:"Sin licenciatura, ¿cuánta experiencia en PLD/FT necesita el Auditor (CUARTO)?",a:"5 años",o:["3 años","5 años","2 años","10 años"],x:"Con licenciatura 3 años; sin licenciatura 5 años."},
+ {q:"La metodología EBR del sujeto debe usar información de un periodo no menor a…",a:"12 meses",o:["6 meses","12 meses","24 meses","36 meses"],x:"OCTAVO A, fracción II, inciso g)."},
+ {q:"¿Tipografía mínima del Informe de Auditoría (NOVENO)?",a:"10 puntos",o:["8 puntos","10 puntos","11 puntos","12 puntos"],x:"NOVENO: español, al menos 10 puntos, índice y negrillas."},
+ {q:"¿A partir de qué porcentaje del capital pagado se revisa la comunicación de transmisión de acciones (OCTAVO A, fr. XIII)?",a:"Más del 2%",o:["Más del 2%","Más del 5%","Más del 10%","Más del 25%"],x:"Fracción XIII, inciso b)."},
+ {q:"¿Cuántas variables mínimas tiene el análisis de riesgos del Auditor (SEXTO)?",a:"5",o:["3","4","5","9"],x:"Productos/servicios, clientes/usuarios, países/áreas, transacciones/canales e infraestructura tecnológica."},
+ {q:"¿Por qué medio se remite el Informe de Auditoría a la CNBV (DÉCIMO PRIMERO)?",a:"SITI PLD/FT",o:["SITI PLD/FT","Oficialía de partes","Correo electrónico al supervisor","Portal del SAT"],x:"Por SITI PLD/FT, en PDF con texto seleccionable."},
+ {q:"¿Qué ventana previa se revisa para determinar la independencia del Auditor o socio (QUINTO)?",a:"El año inmediato anterior al contrato",o:["El año inmediato anterior al contrato","Los 3 años anteriores","Los 5 años anteriores","Sólo durante la auditoría"],x:"QUINTO, fracción I, inciso a)."},
+ {q:"¿Qué sección del OCTAVO se desarrolla «en caso de requerirse» para lo preocupante?",a:"C. Asuntos clave de la auditoría",o:["A. Resultados de la revisión","B. Cumplimiento regulatorio","C. Asuntos clave de la auditoría","D. Hallazgos y acciones correctivas"],x:"Sección C: medidas no acordes, controles ineficaces, infracciones graves o irregularidades 139 Quáter / 400 Bis."},
+ {q:"¿Cuántas fracciones tiene la sección A del OCTAVO?",a:"14",o:["12","13","14","15"],x:"De la I (Identificación) a la XIV (Comisionistas)."},
+ {q:"«Apartado A» de los Lineamientos corresponde a…",a:"Lineamientos preliminares (PRIMERO a TERCERO)",o:["Lineamientos preliminares (PRIMERO a TERCERO)","Resultados de la revisión (14 fracciones)","Del Auditor (CUARTO y QUINTO)","Del Informe de Auditoría (NOVENO a DÉCIMO SEGUNDO)"],x:"No confundir con la sección A del OCTAVO."}
+];
+const MODES={all:[0,1,2,3,4,5,6],lin:[0,1,4],fr:[2,3,5],num:[6]};
+let MODE="all";
+function genQ(){
+  const ts=MODES[MODE]; const T = ts[Math.floor(Math.random()*ts.length)];
+  if(T===0){const l=LIN[Math.floor(Math.random()*12)];return {q:`¿Qué regula el lineamiento <b>${l.n}</b>?`,a:l.t,o:pickOpts(l.t,LIN.map(x=>x.t)),x:`${l.n} = ${l.t} (Apartado ${l.ap}, ${AP[l.ap].q.split(" — ")[0]}).`}}
+  if(T===1){const l=LIN[Math.floor(Math.random()*12)];return {q:`¿Qué número de lineamiento es «<b>${l.t}</b>»?`,a:l.n,o:pickOpts(l.n,LIN.map(linName)),x:`${l.t} = ${l.n}, lineamiento ${l.o} de 12.`}}
+  if(T===2){const f=FR[Math.floor(Math.random()*14)];return {q:`OCTAVO, sección A, fracción <b>${f.r}</b>: ¿de qué trata?`,a:f.t,o:pickOpts(f.t,FR.map(x=>x.t)),x:`Fracción ${f.r} = ${f.t} · ${f.verb}: ${f.hook}`}}
+  if(T===3){const f=FR[Math.floor(Math.random()*14)];return {q:`¿En qué fracción del OCTAVO A se revisa «<b>${f.t}</b>»?`,a:f.r,o:pickOpts(f.r,FR.map(x=>x.r)),x:`${f.t} = fracción ${f.r} · ${f.verb}`}}
+  if(T===4){const s=SCEN[Math.floor(Math.random()*SCEN.length)];const l=LIN.find(x=>x.n===s[1]);return {q:`Caso: ${s[0]} ¿Qué lineamiento lo establece?`,a:s[1],o:pickOpts(s[1],LIN.map(linName)),x:`${l.n} · ${l.t}`}}
+  if(T===5){const s=SCENF[Math.floor(Math.random()*SCENF.length)];const f=FR.find(x=>x.r===s[1]);return {q:`Caso de auditoría: ${s[0]} ¿Qué fracción del OCTAVO A?`,a:s[1],o:pickOpts(s[1],FR.map(x=>x.r)),x:`Fracción ${f.r} · ${f.t}`}}
+  const s=SPECIAL[Math.floor(Math.random()*SPECIAL.length)];return {q:s.q,a:s.a,o:shuffle(s.o),x:s.x};
+}
+let Q={i:0,ok:0,list:[],miss:[]};
+function newRound(){
+  const seen=new Set(), list=[]; let guard=0;
+  while(list.length<10 && guard<200){guard++;const q=genQ();if(!seen.has(q.q)){seen.add(q.q);list.push(q)}}
+  Q={i:0,ok:0,list,miss:[]}; renderQ();
+}
+function renderQ(){
+  const box=$("#quiz");
+  if(Q.i>=Q.list.length){
+    const msg = Q.ok>=9?"Listos para el examen.":Q.ok>=7?"Muy bien: repasen las que fallaron.":"Toca repasar el mapa y volver a intentar.";
+    box.innerHTML=`<div class="qbar"><span>Resultado</span><span>${Q.ok}/10</span></div><div class="qprog"><i style="width:100%"></i></div><div class="qtext">${Q.ok} de 10 correctas. ${msg}</div>${Q.miss.length?`<div class="miss"><div class="lt">Para repasar</div><ul>${Q.miss.map(m=>`<li>${m.q}<br><b>→ ${m.a}.</b> ${m.x}</li>`).join("")}</ul></div>`:""}<div class="qactions"><button class="btn" id="qAgain">Otra ronda</button><a class="btn ghost" href="#octavo" style="text-decoration:none">Repasar las 14</a></div>`;
+    $("#qAgain").addEventListener("click",newRound); return;
+  }
+  const q=Q.list[Q.i];
+  box.innerHTML=`<div class="qbar"><span>Reactivo ${Q.i+1} de 10</span><span>Aciertos: ${Q.ok}</span></div><div class="qprog"><i style="width:${Q.i*10}%"></i></div>
+  <div class="qtext">${q.q}</div>
+  <div class="opts">${q.o.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join("")}</div>
+  <div class="fb" id="fb"></div>
+  <div class="qactions"><button class="btn" id="qNext" hidden>Siguiente</button><button class="btn ghost" id="qReset">Reiniciar</button></div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
+    const val=q.o[+b.dataset.k], good = val===q.a;
+    box.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(q.o[+x.dataset.k]===q.a) x.classList.add("right");});
+    if(!good){ b.classList.add("wrong"); Q.miss.push(q);} else Q.ok++;
+    $("#fb").innerHTML = (good?'<span class="ok">Correcto.</span> ':'<span class="no">No.</span> ')+q.x;
+    const n=$("#qNext"); n.hidden=false; n.focus();
+  }));
+  $("#qNext").addEventListener("click",()=>{Q.i++;renderQ();});
+  $("#qReset").addEventListener("click",newRound);
+}
+document.querySelectorAll(".qmode").forEach(b=>b.addEventListener("click",()=>{
+  MODE=b.dataset.m; document.querySelectorAll(".qmode").forEach(x=>x.setAttribute("aria-pressed",x===b)); newRound();
+}));
+newRound();
+</script>
+</body>
+</html>
