@@ -266,6 +266,15 @@ footer b{color:var(--ink)}
 }
 @media (max-width:600px){ .chant p span{white-space:normal} .trow2{grid-template-columns:1fr auto}.trow2 .tb{grid-column:1/-1;order:3} }
 @media (max-width:520px){ .rhythm{flex-wrap:wrap} .rh{flex:1 1 40%} }
+.printhead{display:none}
+@media print{
+  body{background:#fff;padding:0}
+  .top,.hero,.traps,section.block:not(.sim),footer,.simbar,.modes,.sim > .lbl,.sim .sec-head,.qactions,.siminfo,.drawer,.scrim{display:none!important}
+  .quiz{box-shadow:none;border:0;padding:0;max-width:none}
+  .printhead{display:block;font-family:var(--f-display);font-size:14px;margin:0 0 8px}
+  .miss{background:none;padding:0} .miss li{break-inside:avoid;margin:10px 0}
+  .trow2 .tb{border-color:#999} *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -359,7 +368,7 @@ R.cifras = s=>head(s)+`<div class="nums">${s.cifras.map(c=>`<div class="numt"><d
 R.simulador = s=>head({titulo:s.titulo||"Modo examen",intro:s.intro||"Opción múltiple con 4 opciones. Practica por tema en rondas de 10, o haz un simulacro de 30 o 50 que no repite reactivos hasta agotar el banco. Contesta con clic o con las teclas A, B, C, D."})+
   `<div class="simbar"><button class="qsim" data-n="30" aria-pressed="false">Simulacro de 30</button><button class="qsim" data-n="50" aria-pressed="false">Simulacro de 50</button><span class="bankinfo" id="bankinfo"></span><button class="linkbtn" id="simReset">Reiniciar mi avance</button></div>
    <div class="lbl" style="margin-bottom:6px">O practica por tema (rondas de 10)</div><div class="modes" id="modes" role="group" aria-label="Tipo de práctica"></div><div class="quiz" id="quiz" aria-live="polite"></div>`;
-$("#secciones").innerHTML = D.secciones.map((s,i)=>`<section class="block" id="${s.id}">${R[s.tipo](s,i)}</section>`).join("");
+$("#secciones").innerHTML = D.secciones.map((s,i)=>`<section class="block${s.tipo==="simulador"?" sim":""}" id="${s.id}">${R[s.tipo](s,i)}</section>`).join("");
 
 /* ---------- conectores del mapa ---------- */
 function wires(map){
@@ -459,13 +468,14 @@ function renderEnd(){
   const box=$("#quiz"),n=ST.list.length,pct=n?Math.round(ST.ok/n*100):0;
   const msg=pct>=90?"Listos para el examen.":pct>=75?"Muy bien: repasen los temas con menos aciertos.":pct>=60?"Van bien, pero hay que repasar.":"Toca volver al mapa y repasar antes del siguiente intento.";
   const rows=Object.entries(ST.byTema).sort((a,b)=>a[1].ok/a[1].n-b[1].ok/b[1].n).map(([k,v])=>`<div class="trow2"><span>${esc(TEMAS[k]||k)}</span><span class="tb"><i style="width:${Math.round(v.ok/v.n*100)}%"></i></span><span class="tv">${v.ok}/${v.n}</span></div>`).join("");
-  box.innerHTML=`<div class="qbar"><span>${esc(ST.meta.label)} · resultado</span><span>${ST.ok}/${n}</span></div><div class="qprog"><i style="width:100%"></i></div>
+  box.innerHTML=`<div class="printhead"><b>${esc(D.meta.titulo)}</b> · 360Educa · ${esc(ST.meta.label)} · ${new Date().toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"})}</div><div class="qbar"><span>${esc(ST.meta.label)} · resultado</span><span>${ST.ok}/${n}</span></div><div class="qprog"><i style="width:100%"></i></div>
   <div class="score"><span class="big">${pct}%</span><span>${ST.ok} de ${n} correctas. ${msg}</span></div>
   ${rows?`<div class="lbl" style="margin-top:14px">Aciertos por tema (de menor a mayor)</div><div class="trows">${rows}</div>`:""}
   ${ST.miss.length?`<details class="miss" open><summary class="lbl">Para repasar (${ST.miss.length})</summary><ul>${ST.miss.map(m=>`<li>${esc(m.q)}<br><b>→ ${esc(m.a)}.</b> ${esc(m.x)}<span class="ref">${esc(m.ref)}</span></li>`).join("")}</ul></details>`:""}
-  <div class="qactions"><button class="btn" id="qAgain">${ST.meta.kind==="simulacro"?"Otro simulacro igual":"Otra ronda"}</button><a class="btn ghost" href="#${mapa0?mapa0.id:"top"}">Repasar el mapa</a></div>
+  <div class="qactions"><button class="btn" id="qAgain">${ST.meta.kind==="simulacro"?"Otro simulacro igual":"Otra ronda"}</button><button class="btn ghost" id="qPrint">Imprimir o guardar en PDF</button><a class="btn ghost" href="#${mapa0?mapa0.id:"top"}">Repasar el mapa</a></div>
   ${ST.meta.kind==="simulacro"?`<p class="siminfo">${simInfo()}${ST.meta.cycled?" · Se completó el banco y empezó una vuelta nueva.":""}</p>`:""}`;
   $("#qAgain").addEventListener("click",()=>ST.meta.kind==="simulacro"?startSim(ST.meta.n):startRound());
+  $("#qPrint").addEventListener("click",()=>{const d=box.querySelector("details.miss");if(d)d.open=true;window.print();});
   $("#bankinfo").textContent=bankInfo();
 }
 document.addEventListener("keydown",e=>{
